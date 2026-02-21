@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://voice.ailydian.com/</loc>
+    <lastmod>2025-12-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="tr-TR" href="https://voice.ailydian.com/tr/" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://voice.ailydian.com/en/" />
+    <xhtml:link rel="alternate" hreflang="de-DE" href="https://voice.ailydian.com/de/" />
+    <xhtml:link rel="alternate" hreflang="fr-FR" href="https://voice.ailydian.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="es-ES" href="https://voice.ailydian.com/es/" />
+  </url>
+
+  <!-- text to speech ai -->
+  <url>
+    <loc>https://voice.ailydian.com/text-to-speech-ai</loc>
+    <lastmod>2025-12-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- türkçe text to speech -->
+  <url>
+    <loc>https://voice.ailydian.com/türkçe-text-to-speech</loc>
+    <lastmod>2025-12-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+</urlset>

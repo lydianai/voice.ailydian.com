@@ -1,0 +1,55 @@
+# Ailydian AI - Rate Limiting Configuration
+# Protects GROQ API from abuse and manages request limits
+
+on_http_request:
+  # API endpoint rate limiting
+  - expressions:
+      - req.url.contains('/api/chat')
+    actions:
+      - type: rate_limit
+        config:
+          name: "GROQ API Rate Limit - 100 requests per minute"
+          algorithm: sliding_window
+          capacity: 100
+          rate: 60s
+          bucket_key:
+            - conn.client_ip
+
+      - type: log
+        config:
+          metadata:
+            type: "rate_limit_check"
+            endpoint: "/api/chat"
+            ip: "${conn.client_ip}"
+
+  # Secondary rate limit for heavy users (per hour)
+  - expressions:
+      - req.url.contains('/api/chat')
+    actions:
+      - type: rate_limit
+        config:
+          name: "Hourly API Limit - 1000 requests per hour"
+          algorithm: sliding_window
+          capacity: 1000
+          rate: 3600s
+          bucket_key:
+            - conn.client_ip
+
+# Rate limit exceeded response
+on_http_response:
+  - expressions:
+      - res.status_code == 429
+    actions:
+      - type: custom_response
+        config:
+          status_code: 429
+          content: |
+            {
+              "error": "Rate limit exceeded",
+              "message": "Too many requests. Please wait a moment before trying again.",
+              "limit": "100 requests per minute",
+              "retry_after": 60
+            }
+          headers:
+            content-type: application/json
+            retry-after: "60"

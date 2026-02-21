@@ -1,0 +1,180 @@
+# robots.txt for voice.ailydian.com
+# Ailydian AI - Premium Turkish Voice Assistant
+# Updated: 2025-12-14
+
+# ============================================
+# ALLOW LEGITIMATE SEO CRAWLERS
+# ============================================
+
+# Google Search
+User-agent: Googlebot
+Allow: /
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing Search
+User-agent: Bingbot
+Allow: /
+
+# Yandex (Popular in Turkey)
+User-agent: Yandex
+Allow: /
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+
+# ============================================
+# BLOCK AI TRAINING / SCRAPER BOTS
+# ============================================
+
+# OpenAI GPTBot (ChatGPT training)
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic ClaudeBot (Claude training)
+User-agent: ClaudeBot
+Disallow: /
+
+# Common Crawl (AI training datasets)
+User-agent: CCBot
+Disallow: /
+
+# Google Extended (Gemini/Bard training)
+User-agent: Google-Extended
+Disallow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# ByteDance (TikTok) - Bytespider
+User-agent: Bytespider
+Disallow: /
+
+# Meta AI
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Disallow: /
+
+# Diffbot
+User-agent: Diffbot
+Disallow: /
+
+# Omgili
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+# ============================================
+# BLOCK AGGRESSIVE SEO SCRAPERS
+# ============================================
+
+# Ahrefs Bot
+User-agent: AhrefsBot
+Disallow: /
+
+# SEMrush Bot
+User-agent: SemrushBot
+Disallow: /
+
+# DotBot (Moz/OpenSiteExplorer)
+User-agent: DotBot
+Disallow: /
+
+# Majestic SEO
+User-agent: MJ12bot
+Disallow: /
+
+# BLEXBot
+User-agent: BLEXBot
+Disallow: /
+
+# SEOkicks
+User-agent: SEOkicks
+Disallow: /
+
+# Screaming Frog
+User-agent: Screaming Frog SEO Spider
+Disallow: /
+
+# ============================================
+# BLOCK OTHER MALICIOUS BOTS
+# ============================================
+
+# AI2Bot (Allen Institute)
+User-agent: AI2Bot
+Disallow: /
+
+# Amazonbot
+User-agent: Amazonbot
+Disallow: /
+
+# Applebot-Extended (Apple AI)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Scrapy
+User-agent: Scrapy
+Disallow: /
+
+# ImagesiftBot
+User-agent: ImagesiftBot
+Disallow: /
+
+# YouBot
+User-agent: YouBot
+Disallow: /
+
+# Kangaroo Bot
+User-agent: kangaroo bot
+Disallow: /
+
+# Gigabot
+User-agent: Gigabot
+Disallow: /
+
+# Barkrowler
+User-agent: Barkrowler
+Disallow: /
+
+# PetalBot
+User-agent: PetalBot
+Disallow: /
+
+# YandexBot (separate from Yandex search)
+User-agent: YandexBot
+Disallow: /
+
+# DataForSeoBot
+User-agent: DataForSeoBot
+Disallow: /
+
+# SentiBot
+User-agent: SentiBot
+Disallow: /
+
+# Awario
+User-agent: AwarioSmartBot
+Disallow: /
+User-agent: AwarioRssBot
+Disallow: /
+
+# ============================================
+# SITEMAP
+# ============================================
+Sitemap: https://voice.ailydian.com/sitemap.xml

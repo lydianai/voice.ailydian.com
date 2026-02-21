@@ -1,0 +1,80 @@
+# Ailydian AI - Ngrok Configuration
+# Local development tunnel with rate limiting and traffic policy
+
+version: "2"
+authtoken: YOUR_NGROK_AUTH_TOKEN_HERE
+
+tunnels:
+  ailydian-voice:
+    proto: http
+    addr: 3000
+    domain: your-endpoint.ngrok.app
+    inspect: true
+
+    # Traffic Policy with Rate Limiting
+    traffic_policy:
+      on_http_request:
+        # Rate limit for /api/chat endpoint
+        - expressions:
+            - req.url.contains('/api/chat')
+          actions:
+            - type: rate-limit
+              config:
+                name: "API Rate Limit - 100 req/min"
+                algorithm: sliding_window
+                capacity: 100
+                rate: 60s
+                bucket_key:
+                  - conn.client_ip
+
+            - type: log
+              config:
+                metadata:
+                  type: "api_request"
+                  endpoint: "/api/chat"
+                  ip: "${conn.client_ip}"
+                  timestamp: "${timestamp}"
+
+        # Secondary hourly limit
+        - expressions:
+            - req.url.contains('/api')
+          actions:
+            - type: rate-limit
+              config:
+                name: "Hourly API Limit"
+                algorithm: sliding_window
+                capacity: 1000
+                rate: 3600s
+                bucket_key:
+                  - conn.client_ip
+
+      on_http_response:
+        # Custom 429 response
+        - expressions:
+            - res.status_code == 429
+          actions:
+            - type: custom-response
+              config:
+                status_code: 429
+                content: |
+                  {
+                    "error": "Rate limit exceeded",
+                    "message": "Too many requests from your IP. Please wait before trying again.",
+                    "limit": "100 requests per minute",
+                    "retry_after": 60
+                  }
+                headers:
+                  content-type: application/json
+                  retry-after: "60"
+                  x-ratelimit-limit: "100"
+
+        # Log all API responses
+        - expressions:
+            - req.url.contains('/api')
+          actions:
+            - type: log
+              config:
+                metadata:
+                  type: "api_response"
+                  status: "${res.status_code}"
+                  ip: "${conn.client_ip}"
