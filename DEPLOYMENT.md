@@ -22,7 +22,7 @@
 
 ```bash
 # Navigate to project folder
-cd /Users/sardag/Desktop/voice-ailydian-final
+cd /Users/lydian/Desktop/voice-ailydian-final
 
 # Verify files
 ls -la
@@ -181,7 +181,7 @@ vercel logs voice.ailydian.com -n 100
 
 ### Quick Update (CLI):
 ```bash
-cd /Users/sardag/Desktop/voice-ailydian-final
+cd /Users/lydian/Desktop/voice-ailydian-final
 
 # Make changes to files...
 
@@ -314,7 +314,7 @@ const rateLimit = {
 - **Vercel Support:** https://vercel.com/support
 - **GROQ Support:** https://console.groq.com/support
 - **Production URL:** https://voice.ailydian.com
-- **Project Dashboard:** https://vercel.com/emrahsardag-yandexcoms-projects/lydian-voice-pwa
+- **Project Dashboard:** https://vercel.com/lydianai-yandexcoms-projects/lydian-voice-pwa
 
 ---
 
