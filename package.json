@@ -21,6 +21,6 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "vercel": "^48.0.0"
+    "vercel": "^50.22.1"
   }
 }
