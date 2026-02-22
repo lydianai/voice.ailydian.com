@@ -1,279 +1,187 @@
-# 🎙️ LyDian Voice Assistant
+# LyDian Voice - Turkish Voice Assistant PWA
 
-**Production URL:** https://voice.ailydian.com
+> A Progressive Web App voice assistant with wake-word detection, Turkish text-to-speech, and conversational memory.
 
-Siri-quality Turkish voice AI assistant powered by GROQ API.
-
----
-
-## ✨ Features
-
-### 🎯 Core Features
-- ✅ **Wake Word Activation** - "Hey Lydian" ile aktive olur
-- ✅ **Continuous Listening** - Her yanıttan sonra otomatik dinlemeye devam eder
-- ✅ **Conversation Memory** - Son 5 mesajı hatırlar (context-aware)
-- ✅ **Premium Turkish TTS** - Microsoft Yelda / Google Turkish Female
-- ✅ **Speech Recognition** - Web Speech API ile gerçek zamanlı ses tanıma
-- ✅ **Auto Re-activation** - Konuşma bitince 1 saniye sonra yeniden aktif
-
-### 🎨 UI/UX Features
-- ✅ **Premium Animations** - Glassmorphism, gradient backgrounds, floating particles
-- ✅ **Processing States** - Animated spinner, pulse effects
-- ✅ **SVG Icons** - No emoji, premium vector graphics
-- ✅ **Chat History** - Conversation history with clear option
-- ✅ **Voice Settings** - Rate, pitch, volume customization
-- ✅ **Audio Visualizer** - Real-time audio bars during listening
-- ✅ **Error Handling** - Retry logic with exponential backoff (3 attempts)
-- ✅ **Mock Data Cleaning** - Removes test/demo disclaimers automatically
+[![Platform Status](https://img.shields.io/badge/Status-Live-brightgreen)](https://voice.ailydian.com)
+[![PWA](https://img.shields.io/badge/PWA-Installable-blue)](https://voice.ailydian.com)
+[![License](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
 
 ---
 
-## 🏗️ Architecture
+## Overview
 
-### Frontend
-- **Single HTML File** - `index.html` (58.6 KB)
-- **No Framework** - Pure HTML, CSS, JavaScript
-- **Web APIs:**
-  - Speech Recognition API
-  - Speech Synthesis API
-  - LocalStorage API
-  - Wake Lock API
-
-### Backend
-- **Vercel Serverless Function** - `/api/chat.js`
-- **GROQ API Integration** - llama-3.3-70b-versatile model
-- **Environment Variables** - API key stored securely
+LyDian Voice is a browser-native voice assistant Progressive Web App (PWA) built with Web Speech API and Web Audio API. It activates on the "Hey Lydian" wake word, processes natural language queries, and responds in Turkish using premium text-to-speech voices. The app features a 5-message conversational memory system, real-time audio visualization, and exponential backoff retry logic for robust operation.
 
 ---
 
-## 🚀 Deployment
+## Architecture
+
+```mermaid
+graph LR
+    subgraph "Input Pipeline"
+        A[Microphone] --> B[Wake Word Detector]
+        B -->|"Hey Lydian"| C[Speech Recognition]
+        C --> D[Text Transcript]
+    end
+    subgraph "Processing"
+        D --> E[Context Manager - 5 Messages]
+        E --> F[Intelligence Engine]
+        F --> G[Response Generator]
+    end
+    subgraph "Output Pipeline"
+        G --> H[Turkish TTS Engine]
+        H --> I[Audio Output]
+        G --> J[Visual Feedback]
+        J --> K[Audio Visualizer]
+    end
+```
+
+---
+
+## Key Features
+
+### Voice Interaction
+- **Wake-Word Activation**: "Hey Lydian" phrase detection via Web Speech API
+- **Auto Re-activation**: Automatically resumes listening after each response cycle
+- **5-Message Conversational Memory**: Maintains context across multiple exchanges
+- **Turkish Text-to-Speech**: Premium voice selection with configurable rate, pitch, and volume
+
+### Audio Processing
+- **Real-time Audio Visualizer**: Live waveform rendering using Web Audio API AnalyserNode
+- **Processing State Animations**: Visual feedback for listening, processing, and speaking states
+- **Retry Logic**: Exponential backoff with 3 attempts for network resilience
+
+### Progressive Web App
+- **Installable**: Add to home screen on iOS, Android, and desktop
+- **Offline Capability**: Core UI and interaction logic works without network
+- **Manifest + Service Worker**: Full PWA compliance
+
+### UI Design
+- **Glassmorphism UI**: Frosted glass card design with backdrop blur
+- **SVG Animations**: Smooth particle and pulse animations
+- **Responsive Layout**: Optimized for mobile and desktop viewports
+
+---
+
+## Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Core | HTML5, CSS3, Vanilla JavaScript |
+| Speech Input | Web Speech API (SpeechRecognition) |
+| Audio Processing | Web Audio API (AnalyserNode) |
+| Text-to-Speech | Web Speech API (SpeechSynthesis) |
+| Backend Functions | Vercel Serverless Functions |
+| Deployment | Vercel |
+| PWA | Web App Manifest + Service Worker |
+
+---
+
+## Getting Started
 
 ### Prerequisites
-```bash
-npm install -g vercel
-```
 
-### Deploy to Vercel
-```bash
-cd /path/to/voice-ailydian-final
-vercel login
-vercel --prod
-```
-
-### Environment Variables
-Set in Vercel Dashboard or via CLI:
-```bash
-vercel env add GROQ_API_KEY
-# Enter your GROQ API key when prompted
-```
-
----
-
-## 🔧 Configuration
-
-### Voice Settings (Default)
-```javascript
-voiceSettings = {
-    rate: 0.95,    // Slightly slower for clarity
-    pitch: 1.05,   // Slightly higher for warmth
-    volume: 1.0    // Full volume
-}
-```
-
-### Conversation Memory
-```javascript
-const MAX_HISTORY = 5; // Last 5 messages
-```
-
-### Retry Logic
-```javascript
-const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
-```
-
----
-
-## 📂 File Structure
-
-```
-voice-ailydian-final/
-├── index.html          # Main application (frontend)
-├── api/
-│   └── chat.js        # Serverless function (backend)
-├── vercel.json        # Vercel configuration
-├── package.json       # Project metadata
-└── README.md          # This file
-```
-
----
-
-## 🎯 How It Works
-
-### 1. Wake Word Detection
-```
-User: "Hey Lydian"
-↓
-System: Detects wake word
-↓
-LyDian: "Evet, dinliyorum"
-↓
-Mic: Ready for command
-```
-
-### 2. Command Processing
-```
-User: "Hava nasıl?"
-↓
-Frontend: Sends to /api/chat
-↓
-Backend: Calls GROQ API with history
-↓
-GROQ: Returns Turkish response
-↓
-Backend: Cleans mock data
-↓
-Frontend: TTS speaks response (mic OFF)
-↓
-TTS Ends: Wait 1 second
-↓
-Mic: Auto re-activated (ready for next)
-```
-
-### 3. Echo Prevention
-```javascript
-// When TTS starts speaking:
-recognition.stop(); // Stop listening
-
-// When TTS ends:
-setTimeout(() => {
-    recognition.start(); // Resume listening
-}, 1000);
-```
-
----
-
-## 🔐 Security
-
-### API Key Protection
-- ❌ **NOT** exposed in frontend
-- ✅ Stored in serverless function
-- ✅ Environment variable support
-- ✅ Can be rotated via Vercel dashboard
-
-### CORS
-```javascript
-// Allowed origins:
-Access-Control-Allow-Origin: *
-```
-
----
-
-## 🧪 Testing
+- Modern browser with Web Speech API support (Chrome, Edge recommended)
+- Microphone access permission
+- Node.js 20+ (for development)
 
 ### Local Development
+
 ```bash
-# Install Vercel CLI
-npm install -g vercel
+# Clone the repository
+git clone https://github.com/lydianai/voice.ailydian.com.git
+cd voice.ailydian.com
 
-# Start dev server
-vercel dev
+# Install dependencies
+npm install
 
-# Open browser
-open http://localhost:3000
+# Start development server
+npm run dev
 ```
 
-### Production Testing
-```bash
-# Test API endpoint
-curl -X POST "https://voice.ailydian.com/api/chat" \
-  -H "Content-Type: application/json" \
-  -d '{"message":"Merhaba","conversationHistory":[]}'
+The app will be available at `http://localhost:3000`.
 
-# Expected response:
-# {"response":"Merhaba! Nasıl yardımcı olabilirim?","success":true}
-```
+### Environment Variables
 
----
+```env
+# Intelligence Engine API
+INTELLIGENCE_API_KEY=your_key_here
+INTELLIGENCE_API_URL=https://your-endpoint.com
 
-## 📊 Performance
-
-### Bundle Sizes
-- **index.html**: 58.6 KB
-- **api/chat.js**: 2.3 KB
-- **Total**: ~60 KB
-
-### Load Times
-- **First Load**: ~500ms
-- **API Response**: ~800ms (GROQ)
-- **TTS Latency**: ~200ms
-
-### Browser Compatibility
-- ✅ Chrome 80+
-- ✅ Edge 80+
-- ✅ Safari 14+
-- ✅ Firefox 75+
-- ❌ IE (not supported)
-
----
-
-## 🐛 Troubleshooting
-
-### "Bağlantı sorunu" Error
-1. Check API key in Vercel env vars
-2. Test API endpoint directly
-3. Check browser console for errors
-4. Verify GROQ API status
-
-### Mic Not Working
-1. Grant microphone permission
-2. Check browser compatibility
-3. Try different browser
-4. Check system mic settings
-
-### Echo/Loop Issue
-- Should be fixed with recognition.stop() during TTS
-- If persists, increase delay in onend (currently 1000ms)
-
-### Cache Issues
-```bash
-# Hard refresh:
-Ctrl + Shift + R (Windows)
-Cmd + Shift + R (Mac)
-
-# Or use cache-busting URL:
-https://voice.ailydian.com?v=20251210
+# App Configuration
+NEXT_PUBLIC_APP_URL=https://voice.ailydian.com
 ```
 
 ---
 
-## 📝 Recent Updates
+## Usage Guide
 
-### v2.0.0 (2025-12-10)
-- ✅ Fixed echo/loop issue (recognition pause during TTS)
-- ✅ Added premium Turkish voice selection (Yelda priority)
-- ✅ Optimized voice settings (rate: 0.95, pitch: 1.05)
-- ✅ Replaced all emoji with SVG icons
-- ✅ Added premium processing animations
-- ✅ Implemented serverless backend with GROQ
-- ✅ Added conversation memory (5 messages)
-- ✅ Mock data auto-cleaning
-- ✅ Retry logic with exponential backoff
-- ✅ Auto re-activation after responses
+1. **Open the app** at [voice.ailydian.com](https://voice.ailydian.com)
+2. **Grant microphone permission** when prompted
+3. **Say "Hey Lydian"** to activate the assistant
+4. **Speak your query** in Turkish
+5. The assistant will **respond with audio and visual feedback**
+6. The system **automatically re-activates** for the next query
 
----
+### Voice Settings
 
-## 📞 Support
+Accessible from the settings panel:
 
-**Issues:** Report at https://github.com/anthropics/claude-code/issues
-**Production URL:** https://voice.ailydian.com
-**API Health:** https://voice.ailydian.com/api/health (if implemented)
+| Setting | Range | Default |
+|---------|-------|---------|
+| Speech Rate | 0.5 - 2.0 | 1.0 |
+| Voice Pitch | 0.5 - 2.0 | 1.0 |
+| Volume | 0.0 - 1.0 | 0.9 |
+| Voice | System Turkish voices | Preferred |
 
 ---
 
-## 📄 License
+## Browser Compatibility
 
-MIT License - Copyright (c) 2025 Ailydian
+| Browser | Support |
+|---------|---------|
+| Chrome 100+ | Full |
+| Edge 100+ | Full |
+| Safari 15+ | Partial (TTS only) |
+| Firefox | Limited |
+
+Web Speech API support varies by browser. Chrome and Edge provide the most complete experience including wake-word detection.
 
 ---
 
-**Built with ❤️ by Claude Code**
+## Project Structure
+
+```
+voice.ailydian.com/
+├── index.html          # Main PWA shell
+├── manifest.json       # PWA manifest
+├── api/                # Vercel serverless functions
+│   └── chat.js         # Intelligence engine proxy
+├── app/                # Next.js pages (if applicable)
+├── components/         # UI components
+│   ├── visualizer.js   # Audio visualizer
+│   └── controls.js     # Voice control panel
+└── public/             # Static assets and icons
+```
+
+---
+
+## Security
+
+Audio data is processed locally in the browser. Voice queries are transmitted over HTTPS to serverless functions. No audio recordings are stored. See [SECURITY.md](SECURITY.md) for vulnerability reporting.
+
+---
+
+## License
+
+Copyright (c) 2024-2026 Lydian (AiLydian). All Rights Reserved.
+
+This software is proprietary. See [LICENSE](LICENSE) for details.
+
+---
+
+## Links
+
+- **Live App**: [voice.ailydian.com](https://voice.ailydian.com)
+- **Main Website**: [www.ailydian.com](https://www.ailydian.com)
+- **Security Policy**: [SECURITY.md](SECURITY.md)
